@@ -14,14 +14,24 @@ namespace TheLittleBookNest.ViewModel
             EnterCommand = new RelayCommand(OpenMainWindow);
         }
 
-        private async void OpenMainWindow()
+        private async void OpenMainWindow(object? parameter = null)
         {
-            await Task.Delay(1000); // Vänta tills animationen är klar (1 sekund)
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
-            Application.Current.MainWindow.Close(); // Stänger WelcomeView
-            Application.Current.MainWindow = mainWindow; // Sätter MainWindow som huvudfönster
-        }
+            try
+            {
+                await Task.Delay(1000); // Vänta 1 sekund för animation
+                var mainWindow = new MainWindow();
+                mainWindow.Show();
 
+                if (Application.Current.MainWindow is Window welcomeView)
+                {
+                    Application.Current.MainWindow = mainWindow; // Uppdatera huvudfönstret
+                    welcomeView.Close(); // Stäng WelcomeView
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

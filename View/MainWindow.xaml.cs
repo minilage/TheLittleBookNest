@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using TheLittleBookNest.ViewModel; // Lägg till namespace för MainWindowViewModel
 
 namespace TheLittleBookNest.View
 {
@@ -8,6 +9,9 @@ namespace TheLittleBookNest.View
         public MainWindow()
         {
             InitializeComponent();
+
+            // Sätt DataContext till MainWindowViewModel
+            DataContext = new MainWindowViewModel();
         }
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -19,3 +23,4 @@ namespace TheLittleBookNest.View
         }
     }
 }
+

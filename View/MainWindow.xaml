@@ -5,7 +5,6 @@
         Title="The Little BookNest" Height="720" Width="1280"
         WindowStartupLocation="CenterScreen" Background="#2F4F4F"
         PreviewKeyDown="MainWindow_PreviewKeyDown">
-       
 
     <Grid>
         <!-- Layout Definitions -->
@@ -46,8 +45,11 @@
         <StackPanel Grid.Row="1" Grid.Column="0" Background="#FFD4CAB9" Margin="5,10,5,5">
             <TextBlock Text="Menu" FontSize="20" FontWeight="Bold" Margin="10,10,10,20" />
             <Button Content="Books" Command="{Binding NavigateToBooksCommand}" Margin="10" Height="40" FontSize="16" />
+            <!-- Kommenterade ut Authors och Stores -->
+            <!-- 
             <Button Content="Authors" Command="{Binding NavigateToAuthorsCommand}" Margin="10" Height="40" FontSize="16" />
             <Button Content="Stores" Command="{Binding NavigateToStoresCommand}" Margin="10" Height="40" FontSize="16" />
+            -->
         </StackPanel>
 
         <!-- Main Content Area -->
@@ -57,5 +59,3 @@
     </Grid>
 
 </Window>
-
-

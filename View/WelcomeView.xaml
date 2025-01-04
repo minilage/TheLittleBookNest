@@ -10,10 +10,10 @@
     WindowStartupLocation="CenterScreen"
     WindowStyle="None">
 
+    <!-- Kopplar DataContext till WelcomeViewModel -->
     <Window.DataContext>
         <local:WelcomeViewModel />
     </Window.DataContext>
-
 
     <Window.Resources>
         <!--  Lokal ToolTip Style för WelcomeView  -->
