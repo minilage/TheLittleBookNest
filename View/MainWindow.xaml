@@ -45,10 +45,9 @@
         <StackPanel Grid.Row="1" Grid.Column="0" Background="#FFD4CAB9" Margin="5,10,5,5">
             <TextBlock Text="Menu" FontSize="20" FontWeight="Bold" Margin="10,10,10,20" />
             <Button Content="Books" Command="{Binding NavigateToBooksCommand}" Margin="10" Height="40" FontSize="16" />
-            <!-- Kommenterade ut Authors och Stores -->
-            <!-- 
+            <!-- Kommenterat ut Stores -->
             <Button Content="Authors" Command="{Binding NavigateToAuthorsCommand}" Margin="10" Height="40" FontSize="16" />
-            <Button Content="Stores" Command="{Binding NavigateToStoresCommand}" Margin="10" Height="40" FontSize="16" />
+            <!-- <Button Content="Stores" Command="{Binding NavigateToStoresCommand}" Margin="10" Height="40" FontSize="16" />
             -->
         </StackPanel>
 

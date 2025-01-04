@@ -20,14 +20,23 @@ namespace TheLittleBookNest.ViewModel
         }
 
         public ICommand NavigateToBooksCommand { get; }
+        public ICommand NavigateToAuthorsCommand { get; }
 
         public MainWindowViewModel()
         {
             // Sätt standardvyn (tillfälligt tom eller en välkomstvy)
             CurrentView = null;
 
-            // Navigeringskommando
+            // Navigeringskommando för Books
             NavigateToBooksCommand = new RelayCommand(o => CurrentView = new BooksView());
+
+            // Navigeringskommando för Authors
+            NavigateToAuthorsCommand = new RelayCommand(o =>
+            {
+                var authorsView = new AuthorsView();
+                authorsView.DataContext = new AuthorsViewModel();
+                CurrentView = authorsView;
+            });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
