@@ -12,7 +12,7 @@ namespace TheLittleBookNest.ViewModel
         {
             using (var context = new AppDbContext())
             {
-                // Ladda alla författare från databasen
+                // Hämta alla författare från databasen
                 Authors = new ObservableCollection<Author>(context.Authors.ToList());
             }
         }

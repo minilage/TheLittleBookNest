@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using TheLittleBookNest.Command;
-using TheLittleBookNest.View;
 
 namespace TheLittleBookNest.ViewModel
 {
@@ -21,22 +20,17 @@ namespace TheLittleBookNest.ViewModel
 
         public ICommand NavigateToBooksCommand { get; }
         public ICommand NavigateToAuthorsCommand { get; }
+        public ICommand NavigateToStoresCommand { get; }
 
         public MainWindowViewModel()
         {
-            // Sätt standardvyn (tillfälligt tom eller en välkomstvy)
+            // Initialisera navigeringskommandon med ViewModels
+            NavigateToBooksCommand = new RelayCommand(o => CurrentView = new BooksViewModel());
+            NavigateToAuthorsCommand = new RelayCommand(o => CurrentView = new AuthorsViewModel());
+            NavigateToStoresCommand = new RelayCommand(o => CurrentView = new StoresViewModel());
+
+            // Sätt standardvyn till null tills en specifik startvy definieras
             CurrentView = null;
-
-            // Navigeringskommando för Books
-            NavigateToBooksCommand = new RelayCommand(o => CurrentView = new BooksView());
-
-            // Navigeringskommando för Authors
-            NavigateToAuthorsCommand = new RelayCommand(o =>
-            {
-                var authorsView = new AuthorsView();
-                authorsView.DataContext = new AuthorsViewModel();
-                CurrentView = authorsView;
-            });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
