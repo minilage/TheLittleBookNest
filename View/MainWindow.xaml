@@ -9,17 +9,13 @@
         PreviewKeyDown="MainWindow_PreviewKeyDown">
 
     <Window.Resources>
-        <!-- DataTemplate för BooksViewModel -->
+        <!-- DataTemplates för att binda vyer till ViewModels -->
         <DataTemplate DataType="{x:Type vm:BooksViewModel}">
             <view:BooksView />
         </DataTemplate>
-
-        <!-- DataTemplate för AuthorsViewModel -->
         <DataTemplate DataType="{x:Type vm:AuthorsViewModel}">
             <view:AuthorsView />
         </DataTemplate>
-
-        <!-- DataTemplate för StoresViewModel -->
         <DataTemplate DataType="{x:Type vm:StoresViewModel}">
             <view:StoresView />
         </DataTemplate>
@@ -35,24 +31,13 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Top Section with Banner and Title -->
+        <!-- Top Banner -->
         <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="#B3A290">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="2*" />
-            </Grid.ColumnDefinitions>
-
-            <!-- Banner -->
-            <Image Source="/Assets/transparent_banner.png" Stretch="Uniform" Grid.Column="0" Margin="267,8,506,8" Grid.ColumnSpan="2" />
-
-            <!-- Title -->
+            <Image Source="/Assets/transparent_banner.png" Stretch="Uniform" Grid.Column="0" Margin="267,8,506,8" />
             <TextBlock Text="The Little BookNest"
-                       FontSize="48"
-                       Foreground="#FF3C220E"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"
-                       FontFamily="Bodoni MT"
-                       FontWeight="Bold" Grid.ColumnSpan="2" Margin="680,0,0,0" />
+                       FontSize="48" Foreground="#FF3C220E"
+                       VerticalAlignment="Center" HorizontalAlignment="Left"
+                       FontFamily="Bodoni MT" FontWeight="Bold" Margin="680,0,0,0" />
         </Grid>
 
         <!-- Side Menu -->

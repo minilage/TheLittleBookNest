@@ -8,8 +8,8 @@
         public int CustomerID { get; set; } // Utländsk nyckel till Customers
 
         // Navigeringsproperty
-        public Store Store { get; set; } // Koppling till Store
-        public Customer Customer { get; set; } // Koppling till Customer
-        public ICollection<OrderDetail> OrderDetails { get; set; } // En order kan ha många detaljer
+        public Store Store { get; set; } = null!; // Koppling till Store
+        public Customer Customer { get; set; } = null!; // Koppling till Customer
+        public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>(); // En order kan ha många detaljer
     }
 }

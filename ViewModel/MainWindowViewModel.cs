@@ -7,35 +7,41 @@ namespace TheLittleBookNest.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private object currentView;
-        public object CurrentView
+        private object? currentView = null!; // Initierad med null!
+        public object? CurrentView
         {
             get => currentView;
             set
             {
                 currentView = value;
-                OnPropertyChanged();
+                OnPropertyChanged(); // Använder CallerMemberName
             }
         }
 
+        // Navigeringskommandon
         public ICommand NavigateToBooksCommand { get; }
         public ICommand NavigateToAuthorsCommand { get; }
         public ICommand NavigateToStoresCommand { get; }
 
+        // Lazy-initialisering av ViewModels
+        private readonly Lazy<BooksViewModel> booksViewModel = new(() => new BooksViewModel());
+        private readonly Lazy<AuthorsViewModel> authorsViewModel = new(() => new AuthorsViewModel());
+        private readonly Lazy<StoresViewModel> storesViewModel = new(() => new StoresViewModel());
+
         public MainWindowViewModel()
         {
-            // Initialisera navigeringskommandon med ViewModels
-            NavigateToBooksCommand = new RelayCommand(o => CurrentView = new BooksViewModel());
-            NavigateToAuthorsCommand = new RelayCommand(o => CurrentView = new AuthorsViewModel());
-            NavigateToStoresCommand = new RelayCommand(o => CurrentView = new StoresViewModel());
+            // Initiera navigeringskommandon
+            NavigateToBooksCommand = new RelayCommand(o => CurrentView = booksViewModel.Value);
+            NavigateToAuthorsCommand = new RelayCommand(o => CurrentView = authorsViewModel.Value);
+            NavigateToStoresCommand = new RelayCommand(o => CurrentView = storesViewModel.Value);
 
-            // Sätt standardvyn till null tills en specifik startvy definieras
-            CurrentView = null;
+            // Sätt standardvyn
+            CurrentView = null; // Initial vy sätts här
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged; // Nullable för att matcha INotifyPropertyChanged
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

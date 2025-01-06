@@ -8,16 +8,15 @@ namespace TheLittleBookNest.Data
     public class AppDbContext : DbContext
     {
         // Tabeller (DbSet representerar en tabell i databasen)
-        public DbSet<Book> Books { get; set; }
-        public DbSet<Author> Authors { get; set; }
-        public DbSet<Store> Stores { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<Publisher> Publishers { get; set; }
-        public DbSet<Inventory> Inventory { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-
+        public DbSet<Book> Books { get; set; } = null!;
+        public DbSet<Author> Authors { get; set; } = null!;
+        public DbSet<Store> Stores { get; set; } = null!;
+        public DbSet<Customer> Customers { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<OrderDetail> OrderDetails { get; set; } = null!;
+        public DbSet<Publisher> Publishers { get; set; } = null!;
+        public DbSet<Inventory> Inventory { get; set; } = null!;
+        public DbSet<Employee> Employees { get; set; } = null!;
 
         // Konfigurera anslutningssträngen
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -87,6 +86,5 @@ namespace TheLittleBookNest.Data
 
             base.OnModelCreating(modelBuilder);
         }
-
     }
 }

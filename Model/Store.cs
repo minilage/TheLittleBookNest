@@ -2,19 +2,19 @@
 {
     public class Store
     {
-        public int ID { get; set; }
-        public string StoreName { get; set; }
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string PostalCode { get; set; }
-        public string Country { get; set; }
-        public string ContactPerson { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
+        public int ID { get; set; } // Primärnyckel
+        public string StoreName { get; set; } = string.Empty;
+        public string Street { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
+        public string PostalCode { get; set; } = string.Empty;
+        public string Country { get; set; } = string.Empty;
+        public string ContactPerson { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
         // Navigeringspropertyer
-        public ICollection<Order> Orders { get; set; }
-        public ICollection<Inventory> Inventory { get; set; }
-        public ICollection<Employee> Employees { get; set; } // Lägg till detta
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public ICollection<Inventory> Inventory { get; set; } = new List<Inventory>();
+        public ICollection<Employee> Employees { get; set; } = new List<Employee>(); // Navigeringsproperty för Employees
     }
 }
