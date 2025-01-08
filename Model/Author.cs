@@ -4,11 +4,15 @@
     {
         public int ID { get; set; } // Primärnyckel
 
-        public string FirstName { get; set; } = string.Empty; // Säkerställer att egenskapen inte är null
-        public string LastName { get; set; } = string.Empty;  // Säkerställer att egenskapen inte är null
-        public DateTime BirthDate { get; set; } // Hanterar DateTime direkt utan ändringar
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+
+        // Beräknad egenskap för visning
+        public string FullName => $"{FirstName} {LastName}";
+
+        public DateTime BirthDate { get; set; }
 
         // Relation till böcker
-        public ICollection<Book> Books { get; set; } = new List<Book> { }; // Initieras för att undvika null
+        public ICollection<Book> Books { get; set; } = new List<Book>();
     }
 }

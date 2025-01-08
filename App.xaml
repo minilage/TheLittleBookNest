@@ -3,6 +3,58 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="View/WelcomeView.xaml">
     <Application.Resources>
-       
+        <ResourceDictionary>
+            <!-- Färger -->
+            <SolidColorBrush x:Key="DialogBackground" Color="#D8C6A8" />
+            <SolidColorBrush x:Key="PrimaryTextBrush" Color="#FF3C220E" />
+            <SolidColorBrush x:Key="SecondaryTextBrush" Color="#FF3C220E" />
+            <SolidColorBrush x:Key="ButtonBackground" Color="#2F4F4F" />
+            <SolidColorBrush x:Key="ButtonForeground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="ButtonSecondaryBackground" Color="#CCCCCC" />
+            <SolidColorBrush x:Key="ButtonSecondaryForeground" Color="#222222" />
+            <SolidColorBrush x:Key="ComboBoxBackground" Color="#FFADADAD" />
+
+            <!-- Rubrik -->
+            <Style x:Key="HeadingTextStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Century Gothic" />
+                <Setter Property="FontSize" Value="22" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+            </Style>
+
+            <!-- Stilar för knappar -->
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource ButtonBackground}" />
+                <Setter Property="Foreground" Value="{StaticResource ButtonForeground}" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Padding" Value="10,5" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="#FF3C220E" />
+            </Style>
+
+            <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource ButtonSecondaryBackground}" />
+                <Setter Property="Foreground" Value="{StaticResource ButtonSecondaryForeground}" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Padding" Value="10,5" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="#FF3C220E" />
+            </Style>
+
+            <!-- Stilar för TextBox -->
+            <Style x:Key="TextBoxStyle" TargetType="TextBox">
+                <Setter Property="BorderBrush" Value="#CCCCCC" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="5" />
+            </Style>
+
+            <!-- Stilar för ComboBox -->
+            <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+                <Setter Property="BorderBrush" Value="#CCCCCC" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Background" Value="{StaticResource ComboBoxBackground}" />
+                <Setter Property="Padding" Value="5" />
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
