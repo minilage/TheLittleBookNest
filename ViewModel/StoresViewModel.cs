@@ -47,13 +47,13 @@ namespace TheLittleBookNest.ViewModel
                 })
             );
 
-            var popup = new InventoryPopup
-            {
-                DataContext = new InventoryPopupViewModel(Stores, booksWithStock)
-            };
+            // Skapa en instans av InventoryPopupViewModel med Stores och BooksWithStock
+            var viewModel = new InventoryPopupViewModel(Stores, booksWithStock);
+
+            // Skapa popup och skicka med ViewModel
+            var popup = new InventoryPopup(viewModel);
             popup.ShowDialog();
         });
-
 
         public StoresViewModel()
         {

@@ -21,12 +21,17 @@ namespace TheLittleBookNest.ViewModel
             get => selectedStore;
             set
             {
-                selectedStore = value;
-                OnPropertyChanged(nameof(SelectedStore));
-
-                if (selectedStore != null)
+                if (selectedStore != value)
                 {
-                    LoadBooksWithStock(selectedStore.ID); // Ladda böcker för vald butik
+                    selectedStore = value;
+                    OnPropertyChanged(nameof(SelectedStore));
+
+                    Console.WriteLine($"SelectedStore changed: {selectedStore?.StoreName} (ID: {selectedStore?.ID})");
+
+                    if (selectedStore != null)
+                    {
+                        LoadBooksWithStock(selectedStore.ID);
+                    }
                 }
             }
         }
@@ -47,11 +52,17 @@ namespace TheLittleBookNest.ViewModel
 
         public InventoryPopupViewModel(ObservableCollection<Store> stores, ObservableCollection<BookWithStock> books)
         {
-            Stores = stores;
-            Books = books;
+            Stores = stores ?? throw new ArgumentNullException(nameof(stores));
+            Books = books ?? new ObservableCollection<BookWithStock>();
+
+            Console.WriteLine($"Number of stores loaded: {Stores.Count}");
+            foreach (var store in Stores)
+            {
+                Console.WriteLine($"Store: {store.StoreName} (ID: {store.ID})");
+            }
 
             SelectedStore = Stores.FirstOrDefault() ?? throw new InvalidOperationException("No stores available.");
-            SelectedBook = Books.FirstOrDefault() ?? throw new InvalidOperationException("No books available.");
+            SelectedBook = Books.FirstOrDefault() ?? new BookWithStock();
 
             ConfirmCommand = new RelayCommand(ExecuteConfirm);
             CancelCommand = new RelayCommand(_ => CloseDialog());
@@ -59,21 +70,36 @@ namespace TheLittleBookNest.ViewModel
 
         public void LoadBooksWithStock(int selectedStoreId)
         {
-            using (var context = new AppDbContext())
+            try
             {
-                var booksWithStock = context.Books
-                    .Select(book => new BookWithStock
-                    {
-                        Title = book.Title,
-                        ISBN13 = book.ISBN13,
-                        Quantity = context.Inventory
-                            .Where(i => i.StoreID == selectedStoreId && i.ISBN == book.ISBN13)
-                            .Select(i => i.Quantity)
-                            .FirstOrDefault()
-                    })
-                    .ToList();
+                using (var context = new AppDbContext())
+                {
+                    var booksWithStock = context.Books
+                        .GroupJoin(
+                            context.Inventory.Where(i => i.StoreID == selectedStoreId),
+                            book => book.ISBN13,
+                            inventory => inventory.ISBN,
+                            (book, inventory) => new BookWithStock
+                            {
+                                Title = book.Title,
+                                ISBN13 = book.ISBN13,
+                                Quantity = inventory.Select(i => i.Quantity).FirstOrDefault()
+                            })
+                        .ToList();
 
-                Books = new ObservableCollection<BookWithStock>(booksWithStock);
+                    Console.WriteLine($"Books loaded for StoreID {selectedStoreId}: {booksWithStock.Count} books");
+                    foreach (var book in booksWithStock)
+                    {
+                        Console.WriteLine($"- {book.Title} (Quantity: {book.Quantity})");
+                    }
+
+                    Books = new ObservableCollection<BookWithStock>(booksWithStock);
+                    OnPropertyChanged(nameof(Books));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while loading books: {ex.Message}");
             }
         }
 
