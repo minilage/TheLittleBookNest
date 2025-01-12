@@ -16,5 +16,6 @@
         public ICollection<Order> Orders { get; set; } = new List<Order>();
         public ICollection<Inventory> Inventory { get; set; } = new List<Inventory>();
         public ICollection<Employee> Employees { get; set; } = new List<Employee>(); // Navigeringsproperty för Employees
+        public int TotalInventory { get; set; }
     }
 }

@@ -4,9 +4,9 @@
     {
         public int ID { get; set; } // Primärnyckel
         public int StoreID { get; set; } // Utländsk nyckel till Stores
-        public string ISBN13 { get; set; } = string.Empty; // Utländsk nyckel till Books
-        public int StockLevel { get; set; }
+        public string ISBN { get; set; } = string.Empty; // Ändrat från ISBN13 till ISBN
         public int StockThreshold { get; set; } // För att hantera påfyllning
+        public int Quantity { get; set; }
 
         // Navigeringsproperty
         public Store Store { get; set; } = null!; // Koppling till Store

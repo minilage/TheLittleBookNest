@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TheLittleBookNest.Model;
-// Alias för att undvika konflikt med System.Security.Policy.Publisher
-using Publisher = TheLittleBookNest.Model.Publisher;
 
 namespace TheLittleBookNest.Data
 {
     public class AppDbContext : DbContext
     {
-        // Tabeller (DbSet representerar en tabell i databasen)
         public DbSet<Book> Books { get; set; } = null!;
         public DbSet<Author> Authors { get; set; } = null!;
         public DbSet<Store> Stores { get; set; } = null!;
@@ -18,13 +15,11 @@ namespace TheLittleBookNest.Data
         public DbSet<Inventory> Inventory { get; set; } = null!;
         public DbSet<Employee> Employees { get; set; } = null!;
 
-        // Konfigurera anslutningssträngen
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=MSI\\MSSQLSERVER01;Database=bookstore;Trusted_Connection=True;TrustServerCertificate=True;");
         }
 
-        // Konfigurera tabellrelationer och regler
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Ange ISBN13 som primärnyckel för Book
@@ -42,6 +37,18 @@ namespace TheLittleBookNest.Data
                 .HasOne(b => b.Publisher)
                 .WithMany(p => p.Books)
                 .HasForeignKey(b => b.PublisherID);
+
+            // Konfigurera relationen mellan Inventory och Store
+            modelBuilder.Entity<Inventory>()
+                .HasOne(i => i.Store)
+                .WithMany(s => s.Inventory)
+                .HasForeignKey(i => i.StoreID);
+
+            // Konfigurera relationen mellan Inventory och Book
+            modelBuilder.Entity<Inventory>()
+                .HasOne(i => i.Book)
+                .WithMany(b => b.Inventory)
+                .HasForeignKey(i => i.ISBN);
 
             // Resten av relationerna
             modelBuilder.Entity<Order>()
@@ -63,16 +70,6 @@ namespace TheLittleBookNest.Data
                 .HasOne(od => od.Book)
                 .WithMany(b => b.OrderDetails)
                 .HasForeignKey(od => od.ISBN13);
-
-            modelBuilder.Entity<Inventory>()
-                .HasOne(i => i.Store)
-                .WithMany(s => s.Inventory)
-                .HasForeignKey(i => i.StoreID);
-
-            modelBuilder.Entity<Inventory>()
-                .HasOne(i => i.Book)
-                .WithMany(b => b.Inventory)
-                .HasForeignKey(i => i.ISBN13);
 
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Store)

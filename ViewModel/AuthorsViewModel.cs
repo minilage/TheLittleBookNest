@@ -9,7 +9,7 @@ namespace TheLittleBookNest.ViewModel
 {
     public class AuthorsViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<Author> _authors = new ObservableCollection<Author>(); // Initierad för att undvika null
+        private ObservableCollection<Author> _authors = new();
         public ObservableCollection<Author> Authors
         {
             get => _authors;
@@ -28,7 +28,7 @@ namespace TheLittleBookNest.ViewModel
 
         private async Task LoadAuthorsAsync()
         {
-            using (var context = new AppDbContext())
+            using var context = new AppDbContext();
             {
                 // Ladda författare asynkront
                 var authors = await context.Authors.ToListAsync();

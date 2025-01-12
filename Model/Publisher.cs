@@ -4,8 +4,12 @@
     {
         public int ID { get; set; } // Primärnyckel
 
+
         public string Name { get; set; } = string.Empty;
-        public string PublisherName { get; set; } = string.Empty;
+
+        // För framtida användning
+        // Kommentera ut PublisherName eftersom det ignoreras i Fluent API
+        // public string PublisherName { get; set; } = string.Empty;
 
         public string Address { get; set; } = string.Empty;
         public string ContactPerson { get; set; } = string.Empty;

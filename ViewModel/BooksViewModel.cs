@@ -14,7 +14,8 @@ namespace TheLittleBookNest.ViewModel
 {
     public class BooksViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<Book> _books = new ObservableCollection<Book>(); // Initierad
+        private ObservableCollection<Book> _books = new();
+
         public ObservableCollection<Book> Books
         {
             get => _books;

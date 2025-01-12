@@ -33,12 +33,35 @@
 
         <!-- Top Banner -->
         <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="#B3A290">
-            <Image Source="/Assets/transparent_banner.png" Stretch="Uniform" Grid.Column="0" Margin="267,8,506,8" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <!-- Mellanrum före bilden -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Kolumn för bilden -->
+                <ColumnDefinition Width="20"/>
+                <!-- Mellanrum mellan bild och rubrik -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Kolumn för rubriken -->
+                <ColumnDefinition Width="*" />
+                <!-- Mellanrum efter rubriken -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Bild -->
+            <Image Source="/Assets/transparent_banner.png"
+           Stretch="Uniform" 
+           Height="100" 
+           VerticalAlignment="Center" HorizontalAlignment="Center"
+           Grid.Column="1" />
+
+            <!-- Rubrik -->
             <TextBlock Text="The Little BookNest"
-                       FontSize="48" Foreground="#FF3C220E"
-                       VerticalAlignment="Center" HorizontalAlignment="Left"
-                       FontFamily="Bodoni MT" FontWeight="Bold" Margin="680,0,0,0" />
+               FontSize="48" Foreground="#FF3C220E"
+               VerticalAlignment="Center" HorizontalAlignment="Center"
+               FontFamily="Bodoni MT" FontWeight="Bold" 
+               Grid.Column="3" />
         </Grid>
+
+
 
         <!-- Side Menu -->
         <StackPanel Grid.Row="1" Grid.Column="0" Background="#D8C6A8" Margin="5,10,5,5">

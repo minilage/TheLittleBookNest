@@ -112,7 +112,7 @@ namespace TheLittleBookNest.ViewModel
 
         private void LoadAuthors()
         {
-            using (var context = new AppDbContext())
+            using var context = new AppDbContext();
             {
                 foreach (var author in context.Authors)
                 {

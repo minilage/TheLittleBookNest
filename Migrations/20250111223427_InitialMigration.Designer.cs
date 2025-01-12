@@ -12,7 +12,7 @@ using TheLittleBookNest.Data;
 namespace TheLittleBookNest.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250106064814_InitialMigration")]
+    [Migration("20250111223427_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -166,6 +166,9 @@ namespace TheLittleBookNest.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<int>("StockLevel")
                         .HasColumnType("int");
 
@@ -312,6 +315,9 @@ namespace TheLittleBookNest.Migrations
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalInventory")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
