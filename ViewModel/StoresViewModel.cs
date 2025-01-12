@@ -53,6 +53,12 @@ namespace TheLittleBookNest.ViewModel
             // Skapa popup och skicka med ViewModel
             var popup = new InventoryPopup(viewModel);
             popup.ShowDialog();
+
+            // Uppdatera TotalInventory efter popupen
+            if (viewModel.SelectedStore != null)
+            {
+                UpdateStoreInventory(viewModel.SelectedStore.ID);
+            }
         });
 
         public StoresViewModel()
@@ -104,6 +110,30 @@ namespace TheLittleBookNest.ViewModel
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading books: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Uppdaterar TotalInventory för en viss butik.
+        /// </summary>
+        private void UpdateStoreInventory(int storeId)
+        {
+            try
+            {
+                using var context = new AppDbContext();
+                var store = Stores.FirstOrDefault(s => s.ID == storeId);
+                if (store != null)
+                {
+                    store.TotalInventory = context.Inventory
+                        .Where(i => i.StoreID == storeId)
+                        .Sum(i => i.Quantity);
+
+                    OnPropertyChanged(nameof(Stores));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while updating store inventory: {ex.Message}");
             }
         }
 

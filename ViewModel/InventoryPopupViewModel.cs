@@ -26,11 +26,16 @@ namespace TheLittleBookNest.ViewModel
                     selectedStore = value;
                     OnPropertyChanged(nameof(SelectedStore));
 
-                    Console.WriteLine($"SelectedStore changed: {selectedStore?.StoreName} (ID: {selectedStore?.ID})");
-
                     if (selectedStore != null)
                     {
-                        LoadBooksWithStock(selectedStore.ID);
+                        try
+                        {
+                            LoadBooksWithStock(selectedStore.ID);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"An error occurred while loading books for the selected store: {ex.Message}");
+                        }
                     }
                 }
             }
@@ -42,8 +47,15 @@ namespace TheLittleBookNest.ViewModel
             get => selectedBook;
             set
             {
-                selectedBook = value;
-                OnPropertyChanged(nameof(SelectedBook));
+                if (value != null)
+                {
+                    selectedBook = value;
+                    OnPropertyChanged(nameof(SelectedBook));
+                }
+                else
+                {
+                    MessageBox.Show("Please select a valid book.");
+                }
             }
         }
 
@@ -52,14 +64,11 @@ namespace TheLittleBookNest.ViewModel
 
         public InventoryPopupViewModel(ObservableCollection<Store> stores, ObservableCollection<BookWithStock> books)
         {
-            Stores = stores ?? throw new ArgumentNullException(nameof(stores));
-            Books = books ?? new ObservableCollection<BookWithStock>();
+            if (stores == null || !stores.Any())
+                throw new ArgumentException("Stores collection cannot be null or empty.", nameof(stores));
 
-            Console.WriteLine($"Number of stores loaded: {Stores.Count}");
-            foreach (var store in Stores)
-            {
-                Console.WriteLine($"Store: {store.StoreName} (ID: {store.ID})");
-            }
+            Stores = stores;
+            Books = books ?? new ObservableCollection<BookWithStock>();
 
             SelectedStore = Stores.FirstOrDefault() ?? throw new InvalidOperationException("No stores available.");
             SelectedBook = Books.FirstOrDefault() ?? new BookWithStock();
@@ -78,7 +87,7 @@ namespace TheLittleBookNest.ViewModel
                         .GroupJoin(
                             context.Inventory.Where(i => i.StoreID == selectedStoreId),
                             book => book.ISBN13,
-                            inventory => inventory.ISBN,
+                            inventory => inventory.ISBN13,
                             (book, inventory) => new BookWithStock
                             {
                                 Title = book.Title,
@@ -86,12 +95,6 @@ namespace TheLittleBookNest.ViewModel
                                 Quantity = inventory.Select(i => i.Quantity).FirstOrDefault()
                             })
                         .ToList();
-
-                    Console.WriteLine($"Books loaded for StoreID {selectedStoreId}: {booksWithStock.Count} books");
-                    foreach (var book in booksWithStock)
-                    {
-                        Console.WriteLine($"- {book.Title} (Quantity: {book.Quantity})");
-                    }
 
                     Books = new ObservableCollection<BookWithStock>(booksWithStock);
                     OnPropertyChanged(nameof(Books));
@@ -111,68 +114,94 @@ namespace TheLittleBookNest.ViewModel
                 return;
             }
 
-            if (IsAdd)
+            try
             {
-                AddToInventory();
-            }
-            else if (IsRemove)
-            {
-                RemoveFromInventory();
-            }
+                if (IsAdd)
+                {
+                    AddToInventory();
+                }
+                else if (IsRemove)
+                {
+                    RemoveFromInventory();
+                }
 
-            CloseDialog();
+                CloseDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
         }
 
         private void AddToInventory()
         {
-            using var context = new AppDbContext();
-            var inventoryItem = context.Inventory.FirstOrDefault(i => i.StoreID == SelectedStore.ID && i.ISBN == SelectedBook.ISBN13);
+            try
+            {
+                using var context = new AppDbContext();
+                var inventoryItem = context.Inventory.FirstOrDefault(i => i.StoreID == SelectedStore.ID && i.ISBN13 == SelectedBook.ISBN13);
 
-            if (inventoryItem != null)
-            {
-                inventoryItem.Quantity += Quantity;
-            }
-            else
-            {
-                context.Inventory.Add(new Inventory
+                if (inventoryItem != null)
                 {
-                    StoreID = SelectedStore.ID,
-                    ISBN = SelectedBook.ISBN13,
-                    Quantity = Quantity,
-                    StockThreshold = 5
-                });
-            }
+                    inventoryItem.Quantity += Quantity;
+                }
+                else
+                {
+                    if (SelectedStore == null || SelectedBook == null)
+                    {
+                        MessageBox.Show("Invalid store or book selection.");
+                        return;
+                    }
 
-            context.SaveChanges();
-            LoadBooksWithStock(SelectedStore.ID);
-            MessageBox.Show($"Added {Quantity} of '{SelectedBook.Title}' to {SelectedStore.StoreName}.");
+                    context.Inventory.Add(new Inventory
+                    {
+                        StoreID = SelectedStore.ID,
+                        ISBN13 = SelectedBook.ISBN13,
+                        Quantity = Quantity
+                    });
+                }
+
+                context.SaveChanges();
+                LoadBooksWithStock(SelectedStore.ID);
+                MessageBox.Show($"Added {Quantity} of '{SelectedBook.Title}' to {SelectedStore.StoreName}.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while adding to inventory: {ex.Message}");
+            }
         }
 
         private void RemoveFromInventory()
         {
-            using var context = new AppDbContext();
-            var inventoryItem = context.Inventory.FirstOrDefault(i => i.StoreID == SelectedStore.ID && i.ISBN == SelectedBook.ISBN13);
-
-            if (inventoryItem != null)
+            try
             {
-                if (inventoryItem.Quantity >= Quantity)
-                {
-                    inventoryItem.Quantity -= Quantity;
-                    if (inventoryItem.Quantity == 0)
-                        context.Inventory.Remove(inventoryItem);
+                using var context = new AppDbContext();
+                var inventoryItem = context.Inventory.FirstOrDefault(i => i.StoreID == SelectedStore.ID && i.ISBN13 == SelectedBook.ISBN13);
 
-                    context.SaveChanges();
-                    LoadBooksWithStock(SelectedStore.ID);
-                    MessageBox.Show($"Removed {Quantity} of '{SelectedBook.Title}' from {SelectedStore.StoreName}.");
+                if (inventoryItem != null)
+                {
+                    if (inventoryItem.Quantity >= Quantity)
+                    {
+                        inventoryItem.Quantity -= Quantity;
+                        if (inventoryItem.Quantity == 0)
+                            context.Inventory.Remove(inventoryItem);
+
+                        context.SaveChanges();
+                        LoadBooksWithStock(SelectedStore.ID);
+                        MessageBox.Show($"Removed {Quantity} of '{SelectedBook.Title}' from {SelectedStore.StoreName}.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Not enough stock to remove the requested quantity.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Not enough stock to remove the requested quantity.");
+                    MessageBox.Show($"'{SelectedBook.Title}' does not exist in inventory for {SelectedStore.StoreName}.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show($"'{SelectedBook.Title}' does not exist in inventory for {SelectedStore.StoreName}.");
+                MessageBox.Show($"An error occurred while removing from inventory: {ex.Message}");
             }
         }
 

@@ -31,11 +31,16 @@
                       Style="{StaticResource ComboBoxStyle}" />
 
             <!-- Välj bok -->
-            <TextBlock Text="Select Book" FontWeight="SemiBold" Margin="0,10,0,5" Foreground="{DynamicResource SecondaryTextBrush}" Width="347" />
+            <TextBlock Text="Select Book" 
+           FontWeight="SemiBold" 
+           Margin="0,10,0,5" 
+           Foreground="{DynamicResource SecondaryTextBrush}" 
+           Width="347" />
+
             <ComboBox ItemsSource="{Binding Books}" 
-                      SelectedItem="{Binding SelectedBook}" 
-                      Width="350" 
-                      Style="{StaticResource ComboBoxStyle}">
+          SelectedItem="{Binding SelectedBook, Mode=TwoWay}" 
+          Width="350" 
+          Style="{StaticResource ComboBoxStyle}">
                 <!-- Definiera hur böcker visas i rullistan -->
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -56,6 +61,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+
 
             <!-- Ange antal -->
             <TextBlock Text="Quantity" FontWeight="SemiBold" Margin="0,10,0,5" Foreground="{DynamicResource SecondaryTextBrush}" Width="347" />

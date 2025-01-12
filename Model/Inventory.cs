@@ -2,10 +2,8 @@
 {
     public class Inventory
     {
-        public int ID { get; set; } // Primärnyckel
         public int StoreID { get; set; } // Utländsk nyckel till Stores
-        public string ISBN { get; set; } = string.Empty; // Ändrat från ISBN13 till ISBN
-        public int StockThreshold { get; set; } // För att hantera påfyllning
+        public string ISBN13 { get; set; } = string.Empty; // Ändrat från ISBN till ISBN13
         public int Quantity { get; set; }
 
         // Navigeringsproperty

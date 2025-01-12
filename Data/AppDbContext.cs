@@ -38,6 +38,10 @@ namespace TheLittleBookNest.Data
                 .WithMany(p => p.Books)
                 .HasForeignKey(b => b.PublisherID);
 
+            // Konfigurera sammansatt primärnyckel för Inventory
+            modelBuilder.Entity<Inventory>()
+                .HasKey(i => new { i.StoreID, i.ISBN13 });
+
             // Konfigurera relationen mellan Inventory och Store
             modelBuilder.Entity<Inventory>()
                 .HasOne(i => i.Store)
@@ -48,7 +52,7 @@ namespace TheLittleBookNest.Data
             modelBuilder.Entity<Inventory>()
                 .HasOne(i => i.Book)
                 .WithMany(b => b.Inventory)
-                .HasForeignKey(i => i.ISBN);
+                .HasForeignKey(i => i.ISBN13);
 
             // Resten av relationerna
             modelBuilder.Entity<Order>()
