@@ -37,6 +37,24 @@ namespace TheLittleBookNest.ViewModel
                             MessageBox.Show($"An error occurred while loading books for the selected store: {ex.Message}");
                         }
                     }
+
+                    // Återställ vald bok utan att trigga meddelandet
+                    var firstBook = Books.FirstOrDefault();
+                    if (firstBook != null)
+                    {
+                        selectedBook = firstBook;
+                        // Ingen OnPropertyChanged här, för att undvika att "valid book"-meddelandet triggas
+                    }
+                    else
+                    {
+                        selectedBook = new BookWithStock
+                        {
+                            Title = "No Book Selected",
+                            ISBN13 = string.Empty,
+                            Quantity = 0
+                        };
+                    }
+                    OnPropertyChanged(nameof(SelectedBook)); // Flyttad här för att undvika flera körningar av vald bok
                 }
             }
         }
@@ -47,14 +65,18 @@ namespace TheLittleBookNest.ViewModel
             get => selectedBook;
             set
             {
-                if (value != null)
+                // Undvik validering om `value` är null under laddning av böcker
+                if (selectedBook != value)
                 {
-                    selectedBook = value;
-                    OnPropertyChanged(nameof(SelectedBook));
-                }
-                else
-                {
-                    MessageBox.Show("Please select a valid book.");
+                    if (value != null)
+                    {
+                        selectedBook = value;
+                        OnPropertyChanged(nameof(SelectedBook));
+                    }
+                    else if (!isLoadingBooks) // Validera endast om böcker inte håller på att laddas
+                    {
+                        MessageBox.Show("Please select a valid book.");
+                    }
                 }
             }
         }
@@ -77,10 +99,13 @@ namespace TheLittleBookNest.ViewModel
             CancelCommand = new RelayCommand(_ => CloseDialog());
         }
 
+        private bool isLoadingBooks = false;
+
         public void LoadBooksWithStock(int selectedStoreId)
         {
             try
             {
+                isLoadingBooks = true; // Starta laddningen
                 using (var context = new AppDbContext())
                 {
                     var booksWithStock = context.Books
@@ -104,10 +129,22 @@ namespace TheLittleBookNest.ViewModel
             {
                 MessageBox.Show($"An error occurred while loading books: {ex.Message}");
             }
+            finally
+            {
+                isLoadingBooks = false; // Avsluta laddningen
+            }
         }
+
 
         private void ExecuteConfirm(object? parameter)
         {
+            // Kontrollera en gång att bokvalet är giltigt innan åtgärd
+            if (SelectedBook == null)
+            {
+                MessageBox.Show("Please select a valid book before confirming.");
+                return;
+            }
+
             if (Quantity <= 0)
             {
                 MessageBox.Show("Please enter a valid quantity.");
@@ -125,6 +162,7 @@ namespace TheLittleBookNest.ViewModel
                     RemoveFromInventory();
                 }
 
+                // Bekräftelsemeddelande kvarstår
                 CloseDialog();
             }
             catch (Exception ex)
