@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="TheLittleBookNest.View.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.8*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Bild på författaren -->
+        <Image Grid.Row="0" Grid.Column="0" 
+               Source="{Binding AuthorImage}" 
+               Stretch="Uniform" 
+               Margin="10" />
+
+        <!-- Eventinformation -->
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10">
+            <TextBlock Text="{Binding EventTitle}" FontSize="18" FontWeight="Bold" />
+            <TextBlock Text="{Binding Author}" FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="{Binding EventDate}" FontSize="14" />
+            <TextBlock Text="{Binding EventLocation}" FontSize="14" />
+            <TextBlock Text="{Binding AuthorBiography}" FontSize="14" TextWrapping="Wrap" Margin="0,10,0,0" />
+            <Button Content="Reserve Your Spot" HorizontalAlignment="Left" Margin="0,120,0,10" Padding="10,5"/>
+        </StackPanel>
+
+        <!-- Populära böcker -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="10">
+            <TextBlock Text="{Binding BooksHeader}" 
+               FontSize="18" 
+               FontWeight="Bold" 
+               Margin="0,0,0,5" 
+               HorizontalAlignment="Center" />
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding BookImages}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" HorizontalAlignment="Center" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding}" 
+                           Stretch="Uniform" 
+                           MaxHeight="130"
+                                MaxWidth="120"
+                                Margin="10" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+
+        <!-- Erbjudande för anställda -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+            <Image Source="/Assets/DiscountImage.png" 
+           Stretch="Uniform" 
+           VerticalAlignment="Center" 
+           Margin="10" />
+            <Image Source="pack://application:,,,/Assets/StaffParty.png"
+           Stretch="Uniform" 
+           VerticalAlignment="Center" 
+           Margin="10" />
+        </StackPanel>
+    </Grid>
+</UserControl>

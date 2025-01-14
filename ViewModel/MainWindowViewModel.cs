@@ -7,39 +7,34 @@ namespace TheLittleBookNest.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private object? currentView = null!; // Initierad med null!
+        private object? currentView;
         public object? CurrentView
         {
             get => currentView;
             set
             {
                 currentView = value;
-                OnPropertyChanged(); // Använder CallerMemberName
+                OnPropertyChanged();
             }
         }
 
-        // Navigeringskommandon
         public ICommand NavigateToBooksCommand { get; }
         public ICommand NavigateToAuthorsCommand { get; }
         public ICommand NavigateToStoresCommand { get; }
 
-        // Lazy-initialisering av ViewModels
         private readonly Lazy<BooksViewModel> booksViewModel = new(() => new BooksViewModel());
         private readonly Lazy<AuthorsViewModel> authorsViewModel = new(() => new AuthorsViewModel());
         private readonly Lazy<StoresViewModel> storesViewModel = new(() => new StoresViewModel());
 
         public MainWindowViewModel()
         {
-            // Initiera navigeringskommandon
             NavigateToBooksCommand = new RelayCommand(o => CurrentView = booksViewModel.Value);
             NavigateToAuthorsCommand = new RelayCommand(o => CurrentView = authorsViewModel.Value);
             NavigateToStoresCommand = new RelayCommand(o => CurrentView = storesViewModel.Value);
-
-            // Sätt standardvyn
-            CurrentView = null; // Initial vy sätts här
+            CurrentView = new DashboardViewModel(); // Sätter DashboardView som standard
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged; // Nullable för att matcha INotifyPropertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {

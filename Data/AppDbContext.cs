@@ -73,7 +73,7 @@ namespace TheLittleBookNest.Data
             modelBuilder.Entity<OrderDetail>()
                 .HasOne(od => od.Book)
                 .WithMany(b => b.OrderDetails)
-                .HasForeignKey(od => od.ISBN13);
+                .HasForeignKey(od => od.ISBN);
 
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Store)

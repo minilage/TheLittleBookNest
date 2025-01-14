@@ -8,6 +8,7 @@ using System.Windows.Input;
 using TheLittleBookNest.Command;
 using TheLittleBookNest.Data;
 using TheLittleBookNest.Model;
+using TheLittleBookNest.Services;
 using TheLittleBookNest.View;
 
 namespace TheLittleBookNest.ViewModel
@@ -31,6 +32,7 @@ namespace TheLittleBookNest.ViewModel
 
         // Kommando för att öppna dialogen
         public ICommand AddBookCommand { get; }
+        public ICommand RemoveBookCommand { get; } // Kommando för att ta bort en bok
 
         // Kommando för Page Down
         public ICommand ScrollToBottomCommand { get; }
@@ -39,6 +41,15 @@ namespace TheLittleBookNest.ViewModel
         {
             // Initiera kommandon
             AddBookCommand = new RelayCommand(OpenAddBookDialog);
+
+            // NY FUNKTION: Använd RemoveBookCommand för meddelande om att funktionen är under utveckling
+            RemoveBookCommand = new RelayCommand(OpenDeleteBookDialog);
+
+            // KOMMENTERAD KOD: Detta är den gamla metoden för att öppna dialogen
+            /*
+            RemoveBookCommand = new RelayCommand(OpenDeleteBookDialog); 
+            */
+
             ScrollToBottomCommand = new RelayCommand(ScrollToBottom);
 
             // Starta laddning av data
@@ -79,6 +90,34 @@ namespace TheLittleBookNest.ViewModel
             // Uppdatera böcker efter att dialogen stängs
             LoadBooksAsync().ConfigureAwait(false);
         }
+
+        // NY METOD: Meddelandefönster för att indikera att funktionen är under utveckling
+        private void OpenDeleteBookDialog(object? parameter)
+        {
+            MessageBoxHelper.ShowMessage(
+                "This functionality is currently under development. Please check back later.",
+                "Under Construction",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information
+            );
+        }
+
+        // KOMMENTERAD KOD: Ursprunglig metod för att öppna DeleteBookDialog
+        /*
+        private void OpenDeleteBookDialog(object? parameter)
+        {
+            // Skapa och öppna dialogen
+            var dialog = new DeleteBookDialog
+            {
+                DataContext = new DeleteBookDialogViewModel(Books) // Koppla till ViewModel för dialogen
+            };
+
+            dialog.ShowDialog();
+
+            // Uppdatera böcker efter att dialogen stängs
+            LoadBooksAsync().ConfigureAwait(false);
+        }
+        */
 
         private void ScrollToBottom(object? parameter)
         {

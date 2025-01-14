@@ -10,18 +10,42 @@
 
 	<ItemGroup>
 	  <None Remove="Assets\book-icon.ico" />
+	  <None Remove="Assets\Book1.png" />
+	  <None Remove="Assets\Book2.png" />
+	  <None Remove="Assets\Book3.png" />
 	  <None Remove="Assets\bookicon.ico" />
+	  <None Remove="Assets\DiscountImage.png" />
 	  <None Remove="Assets\Logo.png" />
 	  <None Remove="Assets\open_book.ico" />
+	  <None Remove="Assets\Pinter.png" />
+	  <None Remove="Assets\StaffParty.png" />
 	  <None Remove="Assets\transparent_banner.png" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<Resource Include="Assets\Book1.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\Book2.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\Book3.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Assets\bookicon.ico">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Assets\BookNest.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\DiscountImage.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\Pinter.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\StaffParty.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Assets\transparent_banner.png">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
