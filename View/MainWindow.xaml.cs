@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using TheLittleBookNest.ViewModel; // Lägg till namespace för MainWindowViewModel
+using TheLittleBookNest.ViewModel;
 
 namespace TheLittleBookNest.View
 {
@@ -9,8 +9,6 @@ namespace TheLittleBookNest.View
         public MainWindow()
         {
             InitializeComponent();
-
-            // Sätt DataContext till MainWindowViewModel
             DataContext = new MainWindowViewModel();
         }
 
@@ -21,6 +19,15 @@ namespace TheLittleBookNest.View
                 Application.Current.Shutdown(); // Stänger applikationen
             }
         }
+
+        // Hantera klick på bannern
+        private void BannerImage_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is MainWindowViewModel viewModel)
+            {
+                // Uppdatera CurrentView till standardvyn
+                viewModel.CurrentView = null; // Byt till standardvyn eller en specifik vy här
+            }
+        }
     }
 }
-

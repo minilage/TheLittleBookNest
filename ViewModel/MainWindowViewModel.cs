@@ -21,6 +21,7 @@ namespace TheLittleBookNest.ViewModel
         public ICommand NavigateToBooksCommand { get; }
         public ICommand NavigateToAuthorsCommand { get; }
         public ICommand NavigateToStoresCommand { get; }
+        public ICommand NavigateToDashboardCommand { get; }
 
         private readonly Lazy<BooksViewModel> booksViewModel = new(() => new BooksViewModel());
         private readonly Lazy<AuthorsViewModel> authorsViewModel = new(() => new AuthorsViewModel());
@@ -31,6 +32,10 @@ namespace TheLittleBookNest.ViewModel
             NavigateToBooksCommand = new RelayCommand(o => CurrentView = booksViewModel.Value);
             NavigateToAuthorsCommand = new RelayCommand(o => CurrentView = authorsViewModel.Value);
             NavigateToStoresCommand = new RelayCommand(o => CurrentView = storesViewModel.Value);
+
+            // Kommando för att navigera till DashboardView
+            NavigateToDashboardCommand = new RelayCommand(o => CurrentView = new DashboardViewModel());
+
             CurrentView = new DashboardViewModel(); // Sätter DashboardView som standard
         }
 

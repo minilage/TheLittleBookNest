@@ -22,6 +22,16 @@
         <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
             <view:DashboardView />
         </DataTemplate>
+
+        <Style TargetType="ToolTip">
+            <Setter Property="Background" Value="#D1C5B8" />
+            <Setter Property="Foreground" Value="#6B4A31" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Padding" Value="15" />
+            <Setter Property="BorderBrush" Value="#6B4A31" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="FontFamily" Value="Century Gothic" />
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -44,12 +54,19 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Bild -->
-            <Image Source="/Assets/transparent_banner.png"
-                   Stretch="Uniform" 
-                   Height="100" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                   Grid.Column="1" />
+            <!-- Banner-knapp -->
+            <Button Grid.Column="1"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Command="{Binding NavigateToDashboardCommand}"
+                    ToolTip="Press here for StartView"
+                    ToolTipService.InitialShowDelay="100">
+               <Image Source="/Assets/transparent_banner.png"
+                    Stretch="Uniform"
+                    Height="100"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center" />
+            </Button>
 
             <!-- Rubrik -->
             <TextBlock Text="The Little BookNest"
