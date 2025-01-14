@@ -6,6 +6,7 @@ using System.Windows.Input;
 using TheLittleBookNest.Command;
 using TheLittleBookNest.Data;
 using TheLittleBookNest.Model;
+using TheLittleBookNest.Services;
 
 namespace TheLittleBookNest.ViewModel
 {
@@ -154,7 +155,7 @@ namespace TheLittleBookNest.ViewModel
         {
             if (!CanSave(parameter))
             {
-                MessageBox.Show("Please fill in all required fields correctly.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBoxHelper.ShowMessage("Please fill in all required fields correctly.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -174,7 +175,7 @@ namespace TheLittleBookNest.ViewModel
                 context.SaveChanges();
             }
 
-            MessageBox.Show("Book added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBoxHelper.ShowMessage("Book added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
             CloseDialog(null);
         }

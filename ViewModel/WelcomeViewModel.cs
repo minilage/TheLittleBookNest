@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using TheLittleBookNest.Command;
+using TheLittleBookNest.Services;
 using TheLittleBookNest.View;
 
 namespace TheLittleBookNest.ViewModel
@@ -30,7 +31,7 @@ namespace TheLittleBookNest.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBoxHelper.ShowMessage($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

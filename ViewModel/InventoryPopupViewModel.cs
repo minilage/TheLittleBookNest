@@ -4,6 +4,7 @@ using System.Windows.Input;
 using TheLittleBookNest.Command;
 using TheLittleBookNest.Data;
 using TheLittleBookNest.Model;
+using TheLittleBookNest.Services;
 
 namespace TheLittleBookNest.ViewModel
 {
@@ -34,7 +35,7 @@ namespace TheLittleBookNest.ViewModel
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"An error occurred while loading books for the selected store: {ex.Message}");
+                            MessageBoxHelper.ShowMessage($"An error occurred while loading books for the selected store: {ex.Message}");
                         }
                     }
 
@@ -75,7 +76,7 @@ namespace TheLittleBookNest.ViewModel
                     }
                     else if (!isLoadingBooks) // Validera endast om böcker inte håller på att laddas
                     {
-                        MessageBox.Show("Please select a valid book.");
+                        MessageBoxHelper.ShowMessage("Please select a valid book.");
                     }
                 }
             }
@@ -127,7 +128,7 @@ namespace TheLittleBookNest.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while loading books: {ex.Message}");
+                MessageBoxHelper.ShowMessage($"An error occurred while loading books: {ex.Message}");
             }
             finally
             {
@@ -141,13 +142,13 @@ namespace TheLittleBookNest.ViewModel
             // Kontrollera en gång att bokvalet är giltigt innan åtgärd
             if (SelectedBook == null)
             {
-                MessageBox.Show("Please select a valid book before confirming.");
+                MessageBoxHelper.ShowMessage("Please select a valid book before confirming.");
                 return;
             }
 
             if (Quantity <= 0)
             {
-                MessageBox.Show("Please enter a valid quantity.");
+                MessageBoxHelper.ShowMessage("Please enter a valid quantity.");
                 return;
             }
 
@@ -167,7 +168,7 @@ namespace TheLittleBookNest.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}");
+                MessageBoxHelper.ShowMessage($"An error occurred: {ex.Message}");
             }
         }
 
@@ -186,7 +187,7 @@ namespace TheLittleBookNest.ViewModel
                 {
                     if (SelectedStore == null || SelectedBook == null)
                     {
-                        MessageBox.Show("Invalid store or book selection.");
+                        MessageBoxHelper.ShowMessage("Invalid store or book selection.");
                         return;
                     }
 
@@ -200,11 +201,11 @@ namespace TheLittleBookNest.ViewModel
 
                 context.SaveChanges();
                 LoadBooksWithStock(SelectedStore.ID);
-                MessageBox.Show($"Added {Quantity} of '{SelectedBook.Title}' to {SelectedStore.StoreName}.");
+                MessageBoxHelper.ShowMessage($"Added {Quantity} of '{SelectedBook.Title}' to {SelectedStore.StoreName}.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while adding to inventory: {ex.Message}");
+                MessageBoxHelper.ShowMessage($"An error occurred while adding to inventory: {ex.Message}");
             }
         }
 
@@ -225,21 +226,21 @@ namespace TheLittleBookNest.ViewModel
 
                         context.SaveChanges();
                         LoadBooksWithStock(SelectedStore.ID);
-                        MessageBox.Show($"Removed {Quantity} of '{SelectedBook.Title}' from {SelectedStore.StoreName}.");
+                        MessageBoxHelper.ShowMessage($"Removed {Quantity} of '{SelectedBook.Title}' from {SelectedStore.StoreName}.");
                     }
                     else
                     {
-                        MessageBox.Show("Not enough stock to remove the requested quantity.");
+                        MessageBoxHelper.ShowMessage("Not enough stock to remove the requested quantity.");
                     }
                 }
                 else
                 {
-                    MessageBox.Show($"'{SelectedBook.Title}' does not exist in inventory for {SelectedStore.StoreName}.");
+                    MessageBoxHelper.ShowMessage($"'{SelectedBook.Title}' does not exist in inventory for {SelectedStore.StoreName}.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while removing from inventory: {ex.Message}");
+                MessageBoxHelper.ShowMessage($"An error occurred while removing from inventory: {ex.Message}");
             }
         }
 

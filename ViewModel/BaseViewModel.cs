@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using TheLittleBookNest.Command;
+using TheLittleBookNest.Services;
 
 namespace TheLittleBookNest.ViewModel
 {
@@ -25,7 +26,7 @@ namespace TheLittleBookNest.ViewModel
 
         protected virtual void SaveData(object? parameter)
         {
-            MessageBox.Show("Save logic not implemented.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBoxHelper.ShowMessage("Save logic not implemented.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         protected virtual bool CanSave(object? parameter) => true;
